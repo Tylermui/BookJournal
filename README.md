@@ -34,7 +34,6 @@ Book Journal is an app that can list and save all of the books you have or want 
 **Optional Nice-to-have Stories**
 
 * favorites tab
-* ...
 
 ### 2. Screen Archetypes
 
@@ -42,7 +41,6 @@ Book Journal is an app that can list and save all of the books you have or want 
 * Add page to add books
 * Favorites page
 * Read page
-* ...
 
 ### 3. Navigation
 
