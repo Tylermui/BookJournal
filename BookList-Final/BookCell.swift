@@ -14,8 +14,6 @@ class BookCell: UITableViewCell {
     var book: Book!
     
     
-    
-    
 //    override func awakeFromNib() {
 //        super.awakeFromNib()
 //        // Initialization code
@@ -23,14 +21,25 @@ class BookCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
         // Configure the view for the selected state
     }
     
     
+    func configure(with book: Book!) {
+        self.book = book
+        
+        update(with: book)
+    }
+    
     private func update(with book: Book) {
         TitleLabel.text = book.title
-//        StatusLabel.text = book.status
+        if book.status {
+            StatusLabel.text = "Read"
+            StatusLabel.textColor = UIColor.systemGreen
+        } else {
+            StatusLabel.text = "Unread"
+            StatusLabel.textColor = UIColor.systemRed
+        }
 
     }
 

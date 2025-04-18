@@ -1,56 +1,49 @@
 //
-//  ViewController.swift
+//  FavoriteBooksViewController.swift
 //  BookList-Final
-//
-//  Created by Tyler Mui on 4/6/25.
 //
 
 import UIKit
 
-class BookListViewController: UIViewController {
-
-    @IBOutlet weak var EmptyStateLabel: UILabel!
-    @IBOutlet weak var BookTableView: UITableView!
+class FavoriteBooksViewController: UIViewController {
     
-    @IBAction func tapNewBookButton(_ sender: Any) {
-        performSegue(withIdentifier: "ComposeSegue", sender: nil)
-    }
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var emptyStateLabel: UILabel!
     
-    var books = [Book]()
-    
+    // Array to store favorite books
+    var favoriteBooks = [Book]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         
-        BookTableView.tableHeaderView = UIView()
-        BookTableView.dataSource = self
-        BookTableView.delegate = self
+        // Hide top cell separator
+        tableView.tableHeaderView = UIView()
+        
+        // Set table view data source and delegate
+        tableView.dataSource = self
+        tableView.delegate = self
     }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
-        refreshBooks()
+        // Refresh favorites each time view appears
+        refreshFavoriteBooks()
     }
     
-    
-    private func refreshBooks() {
-        // 1.
-        let books = Book.getBooks()
+    private func refreshFavoriteBooks() {
+        // Get all books and filter for favorites
+        let allBooks = Book.getBooks()
+        favoriteBooks = allBooks.filter { $0.isFavorite }
         
-        // 3.
-        self.books = books
-        // 4.
-        EmptyStateLabel.isHidden = !books.isEmpty
-        // 5.
-        BookTableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+        // Update UI
+        emptyStateLabel.isHidden = !favoriteBooks.isEmpty
+        tableView.reloadData()
     }
+    
+    // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // 1.
         if segue.identifier == "ComposeSegue" {
-            // 2.
-            // i.
             if let composeNavController = segue.destination as? UINavigationController,
                 // ii.
                let composeViewController = composeNavController.topViewController as? BookComposeViewController {
@@ -60,51 +53,49 @@ class BookListViewController: UIViewController {
 
                 composeViewController.onComposeBook = { [weak self] book in
                     book.save()
-                    self?.refreshBooks()
+                    self?.refreshFavoriteBooks()
                 }
             }
         }
     }
-
 }
 
-// Table View Data Source Methods
-extension BookListViewController: UITableViewDataSource {
+// MARK: - Table View Data Source Methods
+extension FavoriteBooksViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return books.count
+        return favoriteBooks.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "BookCell", for: indexPath) as! BookCell
-        let book = books[indexPath.row]
-        cell.configure(with: book)
         
+        let book = favoriteBooks[indexPath.row]
+        cell.configure(with: book)
+
         return cell
     }
     
-    //delete functionality
+    // Enable swipe to delete
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        // 1.
         if editingStyle == .delete {
-            // 2.
-            books.remove(at: indexPath.row)
-            // 3.
-            Book.save(books, forKey: "books")
-            // 4.
+            // For favorites, we don't delete the book, just remove it from favorites
+            var book = favoriteBooks[indexPath.row]
+            book.isFavorite = false
+            book.save()
+            
+            favoriteBooks.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
 }
 
-
-// Table View Delegate Methods
-extension BookListViewController: UITableViewDelegate {
-    
+// MARK: - Table View Delegate Methods
+extension FavoriteBooksViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: false)
         
-        let selectedBook = books[indexPath.row]
+        let selectedBook = favoriteBooks[indexPath.row]
         
         performSegue(withIdentifier: "ComposeSegue", sender: selectedBook)
     }

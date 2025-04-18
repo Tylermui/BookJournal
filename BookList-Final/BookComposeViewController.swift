@@ -11,9 +11,21 @@ class BookComposeViewController: UIViewController {
 
     var bookToEdit: Book?
     var book: Book!
-    var onComposeBook: ((Book) -> Void)? = nil
-    @IBOutlet weak var summaryField: UITextField!
+    var onComposeBook: ((Book) -> Void)? = nil 
+    var status: Bool = false
+    var isFavorite: Bool = false
+    
+    @IBOutlet weak var statusLabel: UILabel!
+    @IBOutlet weak var statusSwitch: UISwitch!
+    
+    @IBOutlet weak var favoriteButton: UIButton!
+    @IBAction func tapStatusSwitch(_ sender: UISwitch) {
+        status = sender.isOn
+        updateStatusLabel()
+    }
+    
     @IBOutlet weak var bookTitleField: UITextField!
+    @IBOutlet weak var summaryField: UITextView!
     
     @IBAction func tapDoneButton(_ sender: Any) {
         guard let title = bookTitleField.text,
@@ -29,15 +41,20 @@ class BookComposeViewController: UIViewController {
             book = editBook
             book.title = title
             book.summary = summaryField.text
+            book.status = status
+            book.isFavorite = isFavorite            
+            updateStatusLabel()
         } else {
             book = Book(title: title,
-//                        status: ReadingStatus,
-                        summary: summaryField.text)
+                        status: status,
+                        summary: summaryField.text,
+                        isFavorite: isFavorite)
         }
         onComposeBook?(book)
         
         dismiss(animated: true)
     }
+    
     @IBAction func tapBackButton(_ sender: Any) {
         dismiss(animated: true)
     }
@@ -45,45 +62,42 @@ class BookComposeViewController: UIViewController {
     @IBAction func tapFavoriteButton(_ sender: UIButton) {
         sender.isSelected = !sender.isSelected
         
-//        if sender.isSelected {
-//            book.addToFavorites()
-//        } else {
-//            book.removeFromFavorites()
-//        }
+        isFavorite = !isFavorite
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.summaryField.layer.borderWidth = 1.0;
+        self.summaryField.layer.cornerRadius = 8;
+        self.summaryField.layer.borderColor = UIColor.gray.cgColor;
+        favoriteButton.layer.cornerRadius = favoriteButton.frame.width / 2
+        
         if let book = bookToEdit {
             bookTitleField.text = book.title
             summaryField.text = book.summary
+            status = book.status
+            statusSwitch.isOn = status
+            isFavorite = book.isFavorite
+            favoriteButton.isSelected = isFavorite
             
+            updateStatusLabel()
+            self.title = "Edit Book"
         }
     }
+
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func updateStatusLabel() {
+        statusLabel.text = status ? "Read" : "Unread"
     }
-    */
-
     
     private func presentAlert(title: String, message: String) {
-        // 1.
         let alertController = UIAlertController(
             title: title,
             message: message,
             preferredStyle: .alert)
-        // 2.
         let okAction = UIAlertAction(title: "OK", style: .default)
-        // 3.
         alertController.addAction(okAction)
-        // 4.
         present(alertController, animated: true)
     }
 }

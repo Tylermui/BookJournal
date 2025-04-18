@@ -10,50 +10,52 @@ import UIKit
 struct Book: Codable, Equatable{
     var id: String = UUID().uuidString
     var title: String
-//    var status: ReadingStatus
+    var status: Bool
     var summary: String?
+    var isFavorite: Bool
+
     
-    init(title: String, /*status: ReadingStatus, */summary: String?) {
+    init(title: String, status: Bool, summary: String?, isFavorite: Bool) {
         self.title = title
-//        self.status = status
+        self.status = status
         self.summary = summary
+        self.isFavorite = isFavorite
     }
-   
-}
-enum ReadingStatus: String, Codable {
-    case reading = "Reading"
-    case finished = "Finished"
-    case wantToRead = "Want to Read"
+
 }
 
 
 // UserDefaults
 extension Book {
     
+    // key for all books
+    static var booksKey: String {
+        return "books"
+    }
+    
+    // The key used for storing favorite books
     static var favoriteBooksKey: String {
         return "favoriteBooks"
     }
     
     
-    static func save(_ books: [Book], forKey key: String) {
+    static func save(_ books: [Book], forKey key: String = "books") {
         
         let defaults = UserDefaults.standard
         
         let encodedData = try? JSONEncoder().encode(books)
         
-        defaults.set(encodedData, forKey: "book")
+        defaults.set(encodedData, forKey: key)
         
     }
     
     
-    static func getBooks(forKey key: String) -> [Book] {
+    static func getBooks(forKey key: String = "books") -> [Book] {
         
         let defaults = UserDefaults.standard
         
-        if let data = defaults.data(forKey: "book") {
-            
+        if let data = defaults.data(forKey: key) {
             let decodedBooks = try! JSONDecoder().decode([Book].self, from: data)
-            
             return decodedBooks
         } else {
             return []
@@ -62,7 +64,7 @@ extension Book {
     
     
     func save() {
-        var currentBooks = Book.getBooks(forKey: "books")
+        var currentBooks = Book.getBooks()
         
         // 2. Check if the current task already exists in the tasks array
         if let existingIndex = currentBooks.firstIndex(where: { $0.id == self.id }) {
@@ -72,27 +74,17 @@ extension Book {
             currentBooks.insert(self, at: existingIndex)
         } else {
             // 3. If no matching task exists, add the new task to the end of the array
-            currentBooks.append(self)
+            currentBooks.insert(self, at: 0)
         }
         
         // 4. Save the updated tasks array to UserDefaults
-        Book.save(currentBooks, forKey:"books")
+        Book.save(currentBooks)
     }
     
-//    func addToFavorites() {
-//        var favoriteBooks = Book.getBooks(forKey: Book.favoriteBooksKey)
-//        favoriteBooks.append(self)
-//        Book.save(favoriteBooks, forKey: Book.favoriteBooksKey)
-//    }
-//
-//
-//    func removeFromFavorites() {
-//        var favoriteBooks = Book.getBooks(forKey: Book.favoriteBooksKey)
-//
-//        if let index = favoriteBooks.firstIndex(of: self) {
-//            favoriteBooks.remove(at: index)
-//        }
-//
-//        Book.save(favoriteBooks, forKey: Book.favoriteBooksKey)
-//    }
+    // Toggle favorite status and save
+    mutating func toggleFavorite() {
+        isFavorite = !isFavorite
+        save()
+    }
+    
 }
