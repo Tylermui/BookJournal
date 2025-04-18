@@ -58,20 +58,6 @@ Book Journal is an app that can list and save all of the books you have or want 
     - => home 
 
 ## Wireframes
-
+https://imgur.com/a/RwsfbUc
 <img src="https://imgur.com/a/RwsfbUc" width=600>
 
-
-## Schema 
-
-[This section will be completed in Unit 9]
-
-### Models
-
-[Add table of models]
-
-### Networking
-
-- [Add list of network requests by screen ]
-- [Create basic snippets for each Parse network request]
-- [OPTIONAL: List endpoints if using existing API such as Yelp]
