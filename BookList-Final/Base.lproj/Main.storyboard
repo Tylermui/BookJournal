@@ -244,8 +244,8 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="H2f-Ag-uSG" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Favorites" image="heart.fill" catalog="system" id="uHi-HG-ooV"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="kTu-CA-Wgu">
-                        <rect key="frame" x="0.0" y="118" width="393" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="kTu-CA-Wgu">
+                        <rect key="frame" x="0.0" y="118" width="393" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -354,18 +354,124 @@
                     <connections>
                         <segue destination="Jfk-ms-Gg3" kind="relationship" relationship="viewControllers" id="c8q-eZ-pvS"/>
                         <segue destination="H2f-Ag-uSG" kind="relationship" relationship="viewControllers" id="MbF-iT-do1"/>
+                        <segue destination="7UW-rf-8lB" kind="relationship" relationship="viewControllers" id="QCe-Rk-cqJ"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9ZV-0v-jTz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1187.6923076923076" y="-715.16587677725113"/>
+            <point key="canvasLocation" x="385" y="-717"/>
+        </scene>
+        <!--Read-->
+        <scene sceneID="KFT-ek-grz">
+            <objects>
+                <navigationController id="7UW-rf-8lB" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Read" image="checkmark" catalog="system" id="G2J-aS-wPZ"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="ROj-sI-7LS">
+                        <rect key="frame" x="0.0" y="118" width="393" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="rqG-gK-3ux" kind="relationship" relationship="rootViewController" id="XEA-zV-SRh"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eEB-Cv-AuF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1187" y="-1447"/>
+        </scene>
+        <!--Completed-->
+        <scene sceneID="l4r-An-sWG">
+            <objects>
+                <viewController id="rqG-gK-3ux" customClass="ReadBooksViewController" customModule="BookList_Final" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="bcy-nm-18h">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" separatorInsetReference="fromAutomaticInsets" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="b2t-la-5RS">
+                                <rect key="frame" x="0.0" y="41" width="393" height="770"/>
+                                <inset key="separatorInset" minX="48" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="BookCell" rowHeight="66" id="GNg-bG-cgp" customClass="BookCell" customModule="BookList_Final" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="50" width="393" height="66"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="GNg-bG-cgp" id="5Qr-Af-SP0">
+                                            <rect key="frame" x="0.0" y="0.0" width="393" height="66"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="lOS-ml-Rvv">
+                                                    <rect key="frame" x="20" y="11" width="353" height="44"/>
+                                                    <subviews>
+                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="JgB-m9-vfg">
+                                                            <rect key="frame" x="0.0" y="0.0" width="353" height="44"/>
+                                                            <subviews>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="Book Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uie-31-eDL">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="353" height="20.333333333333332"/>
+                                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kpp-5l-sxL">
+                                                                    <rect key="frame" x="0.0" y="24.333333333333336" width="353" height="19.666666666666664"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                                    <nil key="textColor"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                        </stackView>
+                                                    </subviews>
+                                                </stackView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="lOS-ml-Rvv" secondAttribute="trailing" priority="999" id="PyF-rx-aud"/>
+                                                <constraint firstItem="lOS-ml-Rvv" firstAttribute="leading" secondItem="5Qr-Af-SP0" secondAttribute="leadingMargin" id="Tlg-xf-X4j"/>
+                                                <constraint firstItem="lOS-ml-Rvv" firstAttribute="top" secondItem="5Qr-Af-SP0" secondAttribute="topMargin" id="dSe-WA-ykm"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="lOS-ml-Rvv" secondAttribute="bottom" priority="999" id="e83-cQ-8eL"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="StatusLabel" destination="kpp-5l-sxL" id="nNv-oY-xqQ"/>
+                                            <outlet property="TitleLabel" destination="Uie-31-eDL" id="0dd-kF-8X3"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="List of complete books" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m2k-Jx-kuL">
+                                <rect key="frame" x="48" y="346" width="297" height="160"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
+                                <color key="textColor" systemColor="tertiaryLabelColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Dk7-Ex-ypl"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="m2k-Jx-kuL" firstAttribute="centerY" secondItem="bcy-nm-18h" secondAttribute="centerY" id="0xl-L9-B03"/>
+                            <constraint firstItem="m2k-Jx-kuL" firstAttribute="centerX" secondItem="b2t-la-5RS" secondAttribute="centerX" id="2UA-8u-k6b"/>
+                            <constraint firstItem="m2k-Jx-kuL" firstAttribute="centerY" secondItem="b2t-la-5RS" secondAttribute="centerY" id="Dz7-R1-AxD"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="b2t-la-5RS" secondAttribute="bottom" constant="-76" id="FU7-p3-dWJ"/>
+                            <constraint firstItem="m2k-Jx-kuL" firstAttribute="top" secondItem="Dk7-Ex-ypl" secondAttribute="top" constant="184" id="PQt-uI-H8R"/>
+                            <constraint firstItem="b2t-la-5RS" firstAttribute="leading" secondItem="Dk7-Ex-ypl" secondAttribute="leading" id="Sg8-5R-3eI"/>
+                            <constraint firstItem="m2k-Jx-kuL" firstAttribute="centerX" secondItem="bcy-nm-18h" secondAttribute="centerX" id="s9c-KN-rJg"/>
+                            <constraint firstItem="m2k-Jx-kuL" firstAttribute="leading" secondItem="Dk7-Ex-ypl" secondAttribute="leading" constant="48" id="xSy-UI-85r"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Completed" id="hzC-Fs-Zp2"/>
+                    <connections>
+                        <outlet property="emptyStateLabel" destination="m2k-Jx-kuL" id="cbN-GO-tHq"/>
+                        <outlet property="tableView" destination="b2t-la-5RS" id="UQM-z3-DVA"/>
+                        <segue destination="SqQ-OC-Mxi" kind="presentation" identifier="ComposeSegue" id="djf-HQ-B0s"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="clt-bF-egN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2117" y="-1447"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="ce7-MD-sJf"/>
+        <segue reference="djf-HQ-B0s"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="book.fill" catalog="system" width="128" height="95"/>
+        <image name="checkmark" catalog="system" width="128" height="114"/>
         <image name="heart" catalog="system" width="128" height="107"/>
         <image name="heart.fill" catalog="system" width="128" height="107"/>
         <image name="plus" catalog="system" width="128" height="113"/>

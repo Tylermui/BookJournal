@@ -1,22 +1,22 @@
 //
-//  FavoriteBooksViewController.swift
+//  ReadBooksViewController.swift
 //  BookList-Final
+//
+//  Created by Tyler Mui on 4/19/25.
 //
 
 import UIKit
 
-class FavoriteBooksViewController: UIViewController {
+class ReadBooksViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var emptyStateLabel: UILabel!
-    
-    // Array to store favorite books
-    var favoriteBooks = [Book]()
+    var readBooks = [Book]()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Hide top cell separator
+
         tableView.tableHeaderView = UIView()
         
         // Set table view data source and delegate
@@ -27,16 +27,16 @@ class FavoriteBooksViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         // Refresh favorites each time view appears
-        refreshFavoriteBooks()
+        refreshReadBooks()
     }
     
-    private func refreshFavoriteBooks() {
+    private func refreshReadBooks() {
         // Get all books and filter for favorites
         let allBooks = Book.getBooks()
-        favoriteBooks = allBooks.filter { $0.isFavorite }
+        readBooks = allBooks.filter { $0.status }
         
         // Update UI
-        emptyStateLabel.isHidden = !favoriteBooks.isEmpty
+        emptyStateLabel.isHidden = !readBooks.isEmpty
         tableView.reloadData()
     }
     
@@ -53,23 +53,25 @@ class FavoriteBooksViewController: UIViewController {
 
                 composeViewController.onComposeBook = { [weak self] book in
                     book.save()
-                    self?.refreshFavoriteBooks()
+                    self?.refreshReadBooks()
                 }
             }
         }
     }
+    
+
 }
 
 // MARK: - Table View Data Source Methods
-extension FavoriteBooksViewController: UITableViewDataSource {
+extension ReadBooksViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return favoriteBooks.count
+        return readBooks.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "BookCell", for: indexPath) as! BookCell
         
-        let book = favoriteBooks[indexPath.row]
+        let book = readBooks[indexPath.row]
         cell.configure(with: book)
 
         return cell
@@ -77,12 +79,12 @@ extension FavoriteBooksViewController: UITableViewDataSource {
 }
 
 // MARK: - Table View Delegate Methods
-extension FavoriteBooksViewController: UITableViewDelegate {
+extension ReadBooksViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: false)
         
-        let selectedBook = favoriteBooks[indexPath.row]
+        let selectedBook = readBooks[indexPath.row]
         
         performSegue(withIdentifier: "ComposeSegue", sender: selectedBook)
     }
