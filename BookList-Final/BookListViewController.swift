@@ -36,7 +36,7 @@ class BookListViewController: UIViewController {
     
     private func refreshBooks() {
         // 1.
-        let books = Book.getBooks(forKey: "books")
+        let books = Book.getBooks()
         
         // 3.
         self.books = books
@@ -46,7 +46,25 @@ class BookListViewController: UIViewController {
         BookTableView.reloadSections(IndexSet(integer: 0), with: .automatic)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // 1.
+        if segue.identifier == "ComposeSegue" {
+            // 2.
+            // i.
+            if let composeNavController = segue.destination as? UINavigationController,
+                // ii.
+               let composeViewController = composeNavController.topViewController as? BookComposeViewController {
 
+                // 3.
+                composeViewController.bookToEdit = sender as? Book
+
+                composeViewController.onComposeBook = { [weak self] book in
+                    book.save()
+                    self?.refreshBooks()
+                }
+            }
+        }
+    }
 
 }
 
@@ -58,7 +76,9 @@ extension BookListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "BookCell", for: indexPath) as! BookCell
-                
+        let book = books[indexPath.row]
+        cell.configure(with: book)
+        
         return cell
     }
     
