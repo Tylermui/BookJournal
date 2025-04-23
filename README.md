@@ -61,5 +61,4 @@ Book Journal is an app that can list and save all of the books you have or want 
 
 ## Wireframes
 https://imgur.com/a/RwsfbUc
-<img src="https://imgur.com/a/RwsfbUc" width=600>
 ![wireframe](https://github.com/user-attachments/assets/32148a9d-fe2b-46e7-b170-5224f4b9190f)
